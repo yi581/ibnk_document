@@ -102,32 +102,6 @@ const config = {
           },
           {
             type: 'dropdown',
-            label: 'Community',
-            position: 'right',
-            items: [
-              {
-                label: 'GitHub',
-                href: 'https://github.com/your-org/ibnk-protocol',
-                target: '_blank',
-                rel: null,
-              },
-              {
-                label: 'Discord',
-                href: 'https://discord.gg/your-server',
-                target: '_blank',
-                rel: null,
-              },
-              {
-                label: 'Twitter',
-                href: 'https://twitter.com/ibnk_protocol',
-                target: '_blank',
-                rel: null,
-              },
-            ],
-            className: 'navbar__link--community',
-          },
-          {
-            type: 'dropdown',
             label: 'Support',
             position: 'right',
             items: [
