@@ -1,0 +1,34 @@
+{
+  "name": "v1.01",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "docusaurus": "docusaurus",
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "swizzle": "docusaurus swizzle",
+    "deploy": "docusaurus deploy",
+    "clear": "docusaurus clear",
+    "serve": "docusaurus serve",
+    "write-translations": "docusaurus write-translations",
+    "write-heading-ids": "docusaurus write-heading-ids"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@docusaurus/core": "^3.9.2",
+    "@docusaurus/module-type-aliases": "^3.9.2",
+    "@docusaurus/preset-classic": "^3.9.2",
+    "@docusaurus/tsconfig": "^3.9.2",
+    "@docusaurus/types": "^3.9.2",
+    "@ionic-internal/ionic-ds": "^8.0.0",
+    "clsx": "^2.1.1",
+    "docusaurus-plugin-sass": "^0.2.6",
+    "modern-normalize": "^3.0.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "sass": "^1.94.2"
+  }
+}

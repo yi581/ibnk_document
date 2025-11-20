@@ -1,0 +1,68 @@
+import React from 'react';
+import clsx from 'clsx';
+import Link from '@docusaurus/Link';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import Layout from '@theme/Layout';
+import styles from './index.module.css';
+
+function HomepageHeader() {
+  const {siteConfig} = useDocusaurusContext();
+  return (
+    <header className={clsx('hero hero--primary', styles.heroBanner)}>
+      <div className="container">
+        <h1 className="hero__title">{siteConfig.title}</h1>
+        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <div className={styles.buttons}>
+          <Link
+            className="button button--secondary button--lg"
+            to="/intro">
+            Get Started →
+          </Link>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+export default function Home() {
+  const {siteConfig} = useDocusaurusContext();
+  return (
+    <Layout
+      title={`Welcome to ${siteConfig.title}`}
+      description="Complete API Reference Documentation">
+      <HomepageHeader />
+      <main>
+        <section className={styles.features}>
+          <div className="container">
+            <div className="row">
+              <div className="col col--4">
+                <div className="text--center padding-horiz--md">
+                  <h3>🚀 Quick Start</h3>
+                  <p>
+                    Integrate in minutes and start using our API right away
+                  </p>
+                </div>
+              </div>
+              <div className="col col--4">
+                <div className="text--center padding-horiz--md">
+                  <h3>📚 Detailed Documentation</h3>
+                  <p>
+                    Complete API reference, code examples, and best practices
+                  </p>
+                </div>
+              </div>
+              <div className="col col--4">
+                <div className="text--center padding-horiz--md">
+                  <h3>💡 Technical Support</h3>
+                  <p>
+                    Professional technical team providing comprehensive support
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </Layout>
+  );
+}

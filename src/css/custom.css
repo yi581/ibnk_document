@@ -1,0 +1,320 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* ========================================
+   IONIC DOCS INSPIRED STYLES
+   ======================================== */
+
+/* Ionic Font Family Configuration */
+:root {
+  /* Primary Colors */
+  --ifm-color-primary: #3880ff;
+  --ifm-color-primary-dark: #3171e0;
+  --ifm-color-primary-darker: #2d68cc;
+  --ifm-color-primary-darkest: #2456a8;
+  --ifm-color-primary-light: #4c8dff;
+  --ifm-color-primary-lighter: #6098ff;
+  --ifm-color-primary-lightest: #84b0ff;
+
+  /* Font Families - Ionic Style */
+  --ifm-font-family-base: -apple-system, BlinkMacSystemFont, 'Inter', 'Helvetica', 'Arial',
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  --ifm-font-family-monospace: 'SFMono-Regular', 'Roboto Mono', 'Consolas',
+    'Liberation Mono', 'Menlo', 'Courier', monospace;
+
+  /* Font Smoothing */
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-smoothing: antialiased;
+
+  /* Code Font Size */
+  --ifm-code-font-size: 95%;
+
+  /* Highlighted Code */
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  /* Sidebar Styles */
+  --ifm-menu-color: #3e4c59;
+  --ifm-menu-color-background-active: rgba(56, 128, 255, 0.08);
+  --ifm-menu-color-background-hover: rgba(0, 0, 0, 0.05);
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #5a9bff;
+  --ifm-color-primary-dark: #4189ff;
+  --ifm-color-primary-darker: #357aff;
+  --ifm-color-primary-darkest: #0d5aff;
+  --ifm-color-primary-light: #73adff;
+  --ifm-color-primary-lighter: #89bcff;
+  --ifm-color-primary-lightest: #b5d5ff;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  /* Dark mode sidebar */
+  --ifm-menu-color: #c5cad4;
+  --ifm-menu-color-background-active: rgba(90, 155, 255, 0.15);
+  --ifm-menu-color-background-hover: rgba(255, 255, 255, 0.05);
+}
+
+/* Font Smoothing for Better Readability */
+body {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+
+/* ========================================
+   SIDEBAR NAVIGATION - IONIC STYLE
+   ======================================== */
+
+/* Sidebar Container */
+.theme-doc-sidebar-container {
+  border-right: 1px solid var(--ifm-toc-border-color);
+}
+
+/* Sidebar Menu Items */
+.menu__link {
+  font-size: 0.9rem;
+  font-weight: 400;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.menu__link:hover {
+  background-color: var(--ifm-menu-color-background-hover);
+  text-decoration: none;
+}
+
+/* Active Menu Item */
+.menu__link--active {
+  background-color: var(--ifm-menu-color-background-active);
+  color: var(--ifm-color-primary);
+  font-weight: 500;
+}
+
+.menu__link--active:hover {
+  background-color: var(--ifm-menu-color-background-active);
+}
+
+/* Menu Categories */
+.menu__list-item-collapsible {
+  border-radius: 6px;
+}
+
+.menu__list-item-collapsible:hover {
+  background-color: transparent;
+}
+
+.menu__caret {
+  transition: transform 0.2s ease;
+}
+
+/* Category Labels */
+.menu__link--sublist {
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ifm-menu-color);
+  padding: 0.5rem 0.75rem;
+}
+
+.menu__link--sublist:hover {
+  background-color: transparent;
+  color: var(--ifm-color-primary);
+}
+
+/* Nested Menu Items */
+.menu__list .menu__list {
+  margin-left: 0;
+  padding-left: 1rem;
+  border-left: 1px solid var(--ifm-toc-border-color);
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+/* Menu List Spacing */
+.menu__list-item:not(:first-child) {
+  margin-top: 0.25rem;
+}
+
+/* Sidebar Logo/Title Area */
+.navbar__title {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* ========================================
+   CUSTOM STYLES
+   ======================================== */
+
+/* Card Layout (keeping existing card styles) */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.card {
+  padding: 1.5rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card:hover {
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.card h3 {
+  margin-top: 0;
+  color: var(--ifm-color-primary);
+}
+
+/* Code Blocks */
+code {
+  font-family: var(--ifm-font-family-monospace);
+  border-radius: 4px;
+  padding: 0.15rem 0.3rem;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+/* Links */
+a {
+  transition: color 0.2s ease;
+}
+
+/* Scrollbar Styling (optional, Ionic-like) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ifm-color-emphasis-300);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ifm-color-emphasis-400);
+}
+
+[data-theme='dark'] ::-webkit-scrollbar-thumb {
+  background: var(--ifm-color-emphasis-200);
+}
+
+[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
+  background: var(--ifm-color-emphasis-300);
+}
+
+/* ========================================
+   NAVBAR STYLES - IONIC INSPIRED
+   ======================================== */
+
+/* Navbar separator */
+.navbar-separator {
+  width: 1px;
+  height: 24px;
+  background-color: var(--ifm-color-emphasis-300);
+  margin: 0 0.5rem;
+}
+
+[data-theme='dark'] .navbar-separator {
+  background-color: var(--ifm-color-emphasis-200);
+}
+
+/* Navbar items spacing */
+.navbar__items {
+  gap: 0.5rem;
+}
+
+/* Dropdown menu styling */
+.navbar__item.dropdown > .navbar__link:after {
+  border-color: currentColor transparent transparent;
+  border-style: solid;
+  border-width: 0.4em 0.4em 0;
+  content: '';
+  margin-left: 0.3em;
+  vertical-align: 0.255em;
+}
+
+/* Navbar link hover effect */
+.navbar__link {
+  transition: color 0.2s ease;
+}
+
+.navbar__link:hover {
+  color: var(--ifm-color-primary);
+}
+
+/* Hide navbar on scroll - Enhanced Ionic Style */
+.navbar--fixed-top {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.navbar--hidden {
+  transform: translateY(-100%);
+}
+
+/* GitHub Icon Link */
+.header-github-link {
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+}
+
+.header-github-link:hover {
+  opacity: 0.7;
+}
+
+.header-github-link::before {
+  content: '';
+  width: 24px;
+  height: 24px;
+  display: block;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' d='M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+[data-theme='dark'] .header-github-link::before {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23fff' d='M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12'/%3E%3C/svg%3E");
+}
+
+/* Navbar Dropdown Animation */
+.navbar__item.dropdown .dropdown__menu {
+  animation: navbarDropdown 0.2s ease-in-out;
+}
+
+@keyframes navbarDropdown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
