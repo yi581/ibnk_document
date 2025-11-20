@@ -37,7 +37,13 @@
       "Bash(git init:*)",
       "Bash(git remote add:*)",
       "Bash(git add:*)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(cmd //c taskkill //PID 36160 //F)",
+      "Bash(cmd //c taskkill //PID 12192 //F)",
+      "Bash(cmd //c taskkill //PID 28720 //F)",
+      "Bash(cmd //c taskkill //PID 15716 //F)"
     ],
     "deny": [],
     "ask": []
