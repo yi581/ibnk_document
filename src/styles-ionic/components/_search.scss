@@ -42,11 +42,8 @@ html[data-theme='dark'] {
     [class^='navbarSearchContainer_'] {
       position: static;
       right: initial;
-      max-width: 100%;
-      flex-grow: 0;
       flex-shrink: 1;
       min-width: 0;
-      margin-right: 0.5rem;
     }
   }
 
@@ -54,16 +51,6 @@ html[data-theme='dark'] {
     width: 100%;
     border-radius: 8px;
     box-shadow: var(--docsearch-searchbox-shadow);
-
-    @media (max-width: 996px) {
-      min-width: 8rem;
-      max-width: 12rem;
-    }
-
-    @media (max-width: 640px) {
-      min-width: 6rem;
-      max-width: 9rem;
-    }
 
     .DocSearch-Button-Keys {
       min-width: 0;
