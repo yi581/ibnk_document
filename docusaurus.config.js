@@ -101,24 +101,6 @@ const config = {
             position: 'right',
           },
           {
-            type: 'dropdown',
-            label: 'Support',
-            position: 'right',
-            items: [
-              {
-                label: 'Help Center',
-                to: '/support',
-                rel: null,
-              },
-              {
-                label: 'Contact Us',
-                href: 'mailto:support@ibnk.xyz',
-                rel: null,
-              },
-            ],
-            className: 'navbar__link--support',
-          },
-          {
             type: 'html',
             position: 'right',
             value: '<div class="separator" aria-hidden></div>',

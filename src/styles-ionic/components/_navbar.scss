@@ -201,13 +201,6 @@ html[data-theme='dark'] {
           }
         }
 
-        // Hide Support dropdown in mobile navbar (top bar)
-        .navbar__link--support {
-          @media (max-width: 996px) {
-            display: none !important;
-          }
-        }
-
         //twitter icon
         .icon-link-twitter {
           order: 5;
