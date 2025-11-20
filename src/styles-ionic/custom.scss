@@ -41,6 +41,20 @@
   --z-sidebar: 2000;
   --z-backdrop: 1100;
   //#endregion
+
+  //#region ----------- Blue Color Override (Tailwind blue-400: #60a5fa) ------------
+  --c-blue-0: #dbeafe;
+  --c-blue-10: #bfdbfe;
+  --c-blue-20: #93c5fd;
+  --c-blue-30: #60a5fa;
+  --c-blue-40: #60a5fa;
+  --c-blue-50: #60a5fa;
+  --c-blue-60: #60a5fa;
+  --c-blue-70: #60a5fa;
+  --c-blue-80: #60a5fa;
+  --c-blue-90: #60a5fa;
+  --c-blue-100: #3b82f6;
+  //#endregion
 }
 
 html[data-theme='light'] {

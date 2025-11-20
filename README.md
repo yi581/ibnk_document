@@ -1,167 +1,223 @@
-# API 文档站点
+# iBnk API Documentation
 
-基于 Docusaurus 构建的 API 文档系统。
+API documentation system for iBnk decentralized exchange, built with Docusaurus and styled with Ionic Design System.
 
-## 快速开始
+## Quick Start
 
-### 安装依赖
+### Install Dependencies
 
-依赖已经安装完成，如果需要重新安装：
+Dependencies are already installed. To reinstall if needed:
 
 ```bash
 npm install
 ```
 
-### 本地开发
+### Local Development
 
-启动本地开发服务器：
+Start the local development server:
 
 ```bash
 npm start
 ```
 
-这将启动开发服务器并在浏览器中打开 `http://localhost:3000`。大多数更改会实时更新，无需重启服务器。
+This will start the development server and open `http://localhost:3000` in your browser. Most changes will be reflected live without having to restart the server.
 
-### 构建
+### Build
 
-生成生产环境的静态文件：
+Generate static files for production:
 
 ```bash
 npm run build
 ```
 
-构建后的文件将生成在 `build` 目录中。
+The built files will be generated in the `build` directory.
 
-### 本地预览构建结果
+### Preview Build Locally
 
 ```bash
 npm run serve
 ```
 
-这将在 `http://localhost:3000` 启动一个服务器，预览构建后的内容。
+This will start a server at `http://localhost:3000` to preview the built content.
 
-## 目录结构
+### Clear Cache
+
+If you encounter build issues, clear the cache:
+
+```bash
+npm run clear
+```
+
+## Project Structure
 
 ```
 .
-├── blog/                   # 博客文章（Markdown）
-├── docs/                   # 文档页面（Markdown）
-│   └── intro.md           # 首页文档
+├── blog/                   # Blog posts (Markdown)
+├── docs/                   # Documentation pages (Markdown)
+│   ├── overview/          # Overview documentation
+│   ├── api-reference/     # API reference docs
+│   └── infrastructure/    # Infrastructure docs
 ├── src/
-│   ├── components/        # React 组件
-│   ├── css/              # 全局 CSS
-│   │   └── custom.css    # 自定义样式
-│   └── pages/            # 自定义页面
-│       └── index.js      # 首页
-├── static/               # 静态资源
-│   └── img/             # 图片资源
-├── docusaurus.config.js  # Docusaurus 配置
-├── sidebars.js          # 侧边栏配置
-└── package.json         # 项目依赖
+│   ├── components/        # React components
+│   ├── css/              # Global CSS (Ionic-inspired styles)
+│   │   └── custom.css    # Custom styles with Tailwind blue-400 theme
+│   ├── styles-ionic/     # Ionic Design System styles (SCSS)
+│   │   └── custom.scss   # Main SCSS file with component imports
+│   └── pages/            # Custom pages
+│       └── index.js      # Homepage
+├── static/               # Static assets
+│   └── img/             # Image resources
+├── docusaurus.config.js  # Docusaurus configuration
+├── sidebars.js          # Sidebar configuration
+└── package.json         # Project dependencies
 ```
 
-## 添加文档
+## Theme Customization
 
-### 创建新文档页面
+This project uses a custom theme inspired by Ionic Design System with Tailwind CSS blue-400 (#60a5fa) as the primary color.
 
-1. 在 `docs/` 目录下创建新的 Markdown 文件
-2. 在文件顶部添加 frontmatter：
+### Current Theme Colors
+
+**Light Mode:**
+- Primary: `#60a5fa` (Tailwind blue-400)
+- Primary Dark: `#3b82f6` (Tailwind blue-500)
+- Primary Darker: `#2563eb` (Tailwind blue-600)
+- Primary Darkest: `#1d4ed8` (Tailwind blue-700)
+- Primary Light: `#93c5fd` (Tailwind blue-300)
+- Primary Lighter: `#bfdbfe` (Tailwind blue-200)
+- Primary Lightest: `#dbeafe` (Tailwind blue-100)
+
+**Dark Mode:**
+- Uses the same color palette optimized for dark backgrounds
+
+### Customizing Theme Colors
+
+Edit `src/css/custom.css`:
+
+```css
+:root {
+  --ifm-color-primary: #60a5fa;
+  --ifm-color-primary-dark: #3b82f6;
+  /* Modify other color variables */
+}
+```
+
+For Ionic Design System color overrides, edit `src/styles-ionic/custom.scss`:
+
+```scss
+:root {
+  --c-blue-90: #60a5fa;
+  --c-blue-70: #60a5fa;
+  /* Override other color tokens */
+}
+```
+
+## Adding Documentation
+
+### Create New Documentation Page
+
+1. Create a new Markdown file in the `docs/` directory
+2. Add frontmatter at the top of the file:
 
 ```markdown
 ---
 sidebar_position: 2
+title: Your Page Title
 ---
 
-# 文档标题
+# Page Title
 
-文档内容...
+Your content here...
 ```
 
-3. 文档会自动添加到侧边栏
+3. The document will automatically be added to the sidebar
 
-### 组织文档结构
+### Organize Documentation Structure
 
-在 `sidebars.js` 中自定义侧边栏结构：
+Customize the sidebar structure in `sidebars.js`:
 
 ```javascript
 const sidebars = {
-  tutorialSidebar: [
+  guideSidebar: [
+    'overview/introduction',
     {
       type: 'category',
-      label: 'API 参考',
+      label: 'API Reference',
       items: [
-        'api/authentication',
-        'api/endpoints',
+        'api-reference/authentication',
+        'api-reference/endpoints',
       ],
     },
   ],
 };
 ```
 
-### 添加博客文章
+### Add Blog Posts
 
-在 `blog/` 目录下创建新的 Markdown 文件：
+Create a new Markdown file in the `blog/` directory:
 
 ```markdown
 ---
 slug: my-post
-title: 文章标题
+title: Post Title
 authors: [admin]
 tags: [tag1, tag2]
 ---
 
-文章摘要
+Post summary
 
 <!-- truncate -->
 
-文章正文...
+Full post content...
 ```
 
-## 自定义配置
+## Configuration
 
-### 修改网站信息
+### Modify Site Information
 
-编辑 `docusaurus.config.js` 文件：
+Edit the `docusaurus.config.js` file:
 
 ```javascript
 const config = {
-  title: '你的网站标题',
-  tagline: '网站标语',
+  title: 'iBnk',
+  tagline: 'Decentralized Exchange API Documentation',
   url: 'https://your-domain.com',
-  // ... 其他配置
+  // ... other configurations
 };
 ```
 
-### 自定义主题颜色
+### Add Logo
 
-编辑 `src/css/custom.css` 文件：
-
-```css
-:root {
-  --ifm-color-primary: #2e8555;
-  /* 修改其他颜色变量 */
-}
-```
-
-### 添加 Logo
-
-1. 将 logo 文件（SVG 格式）放到 `static/img/` 目录
-2. 在 `docusaurus.config.js` 中配置：
+1. Place your logo file (SVG format) in the `static/img/` directory
+2. Configure in `docusaurus.config.js`:
 
 ```javascript
 navbar: {
   logo: {
-    alt: 'Logo',
+    alt: 'iBnk Logo',
     src: 'img/logo.svg',
+    srcDark: 'img/logo.svg',
   },
 }
 ```
 
-## 部署
+### Search Configuration
 
-### 部署到 GitHub Pages
+The project is configured with Algolia DocSearch:
 
-1. 修改 `docusaurus.config.js` 中的配置：
+```javascript
+algolia: {
+  appId: 'GX6BVI45L3',
+  apiKey: 'd4a3c603e75159478ce46ba620b134f7',
+  indexName: 'ibnk',
+}
+```
+
+## Deployment
+
+### Deploy to GitHub Pages
+
+1. Update `docusaurus.config.js` with your configuration:
 
 ```javascript
 const config = {
@@ -172,51 +228,98 @@ const config = {
 };
 ```
 
-2. 运行部署命令：
+2. Run the deploy command:
 
 ```bash
 npm run deploy
 ```
 
-### 部署到其他平台
+### Deploy to Other Platforms
 
-构建后将 `build` 目录部署到：
+Build the project and deploy the `build` directory to:
 - Vercel
 - Netlify
 - AWS S3
-- 其他静态网站托管服务
+- Other static site hosting services
 
-## 常用功能
+## Features
 
-### 搜索功能
+### Ionic Design System Integration
 
-Docusaurus 支持多种搜索方案，推荐使用 Algolia DocSearch（免费）。
+This project integrates the Ionic Design System for a modern, professional look:
 
-### 多语言支持
+- Custom SCSS components
+- Ionic-inspired typography and spacing
+- Smooth animations and transitions
+- Mobile-responsive design
 
-项目已配置中文作为默认语言。要添加更多语言：
+### SASS/SCSS Support
 
-1. 在 `docusaurus.config.js` 中添加语言：
+The project includes `docusaurus-plugin-sass` for SCSS compilation:
 
 ```javascript
-i18n: {
-  defaultLocale: 'zh-CN',
-  locales: ['zh-CN', 'en', 'ja'],
-},
+plugins: ['docusaurus-plugin-sass'],
 ```
 
-2. 运行命令生成翻译文件：
+All SCSS files are compiled automatically during build.
 
+### Modern Normalize
+
+Uses `modern-normalize` for consistent cross-browser styling.
+
+## Development Tips
+
+### Live Reload
+
+The development server supports hot module replacement (HMR). Changes to most files will be reflected immediately without refreshing the page.
+
+### Component Development
+
+React components can be placed in `src/components/` and imported throughout your documentation.
+
+### Custom Pages
+
+Create custom React pages in `src/pages/` for landing pages or special sections.
+
+## Troubleshooting
+
+### Port 3000 Already in Use
+
+Kill the process using port 3000:
+
+**Windows:**
 ```bash
-npm run write-translations -- --locale en
+netstat -ano | findstr :3000
+taskkill /PID <PID> /F
 ```
 
-## 参考资源
+**Mac/Linux:**
+```bash
+lsof -ti:3000 | xargs kill -9
+```
 
-- [Docusaurus 官方文档](https://docusaurus.io/)
-- [Markdown 语法](https://www.markdownguide.org/)
-- [React 文档](https://react.dev/)
+### Build Errors
 
-## 许可证
+1. Clear the cache: `npm run clear`
+2. Delete `node_modules` and reinstall: `rm -rf node_modules && npm install`
+3. Check for any syntax errors in Markdown files
+
+## Technology Stack
+
+- **Docusaurus 3.9.2** - Modern static site generator
+- **React 19.2.0** - UI library
+- **Ionic Design System 8.0.0** - Design tokens and components
+- **SASS 1.94.2** - CSS preprocessor
+- **Modern Normalize 3.0.1** - CSS normalization
+
+## Resources
+
+- [Docusaurus Documentation](https://docusaurus.io/)
+- [Ionic Design System](https://ionic.io/design-system)
+- [Markdown Guide](https://www.markdownguide.org/)
+- [React Documentation](https://react.dev/)
+- [Tailwind CSS Colors](https://tailwindcss.com/docs/customizing-colors)
+
+## License
 
 ISC

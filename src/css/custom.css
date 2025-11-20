@@ -11,13 +11,13 @@
 /* Ionic Font Family Configuration */
 :root {
   /* Primary Colors */
-  --ifm-color-primary: #3880ff;
-  --ifm-color-primary-dark: #3171e0;
-  --ifm-color-primary-darker: #2d68cc;
-  --ifm-color-primary-darkest: #2456a8;
-  --ifm-color-primary-light: #4c8dff;
-  --ifm-color-primary-lighter: #6098ff;
-  --ifm-color-primary-lightest: #84b0ff;
+  --ifm-color-primary: #60a5fa;
+  --ifm-color-primary-dark: #3b82f6;
+  --ifm-color-primary-darker: #2563eb;
+  --ifm-color-primary-darkest: #1d4ed8;
+  --ifm-color-primary-light: #93c5fd;
+  --ifm-color-primary-lighter: #bfdbfe;
+  --ifm-color-primary-lightest: #dbeafe;
 
   /* Font Families - Ionic Style */
   --ifm-font-family-base: -apple-system, BlinkMacSystemFont, 'Inter', 'Helvetica', 'Arial',
@@ -39,24 +39,24 @@
 
   /* Sidebar Styles */
   --ifm-menu-color: #3e4c59;
-  --ifm-menu-color-background-active: rgba(56, 128, 255, 0.08);
+  --ifm-menu-color-background-active: rgba(96, 165, 250, 0.08);
   --ifm-menu-color-background-hover: rgba(0, 0, 0, 0.05);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #5a9bff;
-  --ifm-color-primary-dark: #4189ff;
-  --ifm-color-primary-darker: #357aff;
-  --ifm-color-primary-darkest: #0d5aff;
-  --ifm-color-primary-light: #73adff;
-  --ifm-color-primary-lighter: #89bcff;
-  --ifm-color-primary-lightest: #b5d5ff;
+  --ifm-color-primary: #60a5fa;
+  --ifm-color-primary-dark: #3b82f6;
+  --ifm-color-primary-darker: #2563eb;
+  --ifm-color-primary-darkest: #1d4ed8;
+  --ifm-color-primary-light: #93c5fd;
+  --ifm-color-primary-lighter: #bfdbfe;
+  --ifm-color-primary-lightest: #dbeafe;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 
   /* Dark mode sidebar */
   --ifm-menu-color: #c5cad4;
-  --ifm-menu-color-background-active: rgba(90, 155, 255, 0.15);
+  --ifm-menu-color-background-active: rgba(96, 165, 250, 0.15);
   --ifm-menu-color-background-hover: rgba(255, 255, 255, 0.05);
 }
 
