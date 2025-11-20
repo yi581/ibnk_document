@@ -89,7 +89,7 @@ await fetch('https://api.ibnk.xyz/api/v1/transaction/broadcast', {
 
 ### Method B: Python Scripts
 
-Use Python for automated trading scripts.
+Use Python for automated settlement and integration scripts.
 
 **Example:**
 

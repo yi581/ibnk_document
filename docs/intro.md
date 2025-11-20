@@ -8,9 +8,9 @@ title: Welcome to iBnk
 
 ## The **Stablecoin FX Infrastructure**
 
-*iBnk makes Stablecoin FX millisecond, programmable, and execution-grade.*
+*iBnk makes Stablecoin FX millisecond, programmable, and enterprise-grade.*
 
-*A composable FX Layer for fiat-backed stablecoins—one API for fast, precise value movement.*
+*A composable FX infrastructure for fiat-backed stablecoins—one API for fast, precise value movement.*
 
 ---
 
@@ -23,7 +23,9 @@ Through a single API, organisations can:
 * Build digital treasury, payments, and settlement applications
 * Move value without stitching together multiple partners or systems
 
-iBnk acts as the connective layer — not a marketplace, not a custodian, and not an FX dealer.
+**iBnk is infrastructure, not a trading platform.**
+
+We provide the technical layer — not a marketplace, not a custodian, and not an FX dealer. iBnk enables developers and enterprises to build their own applications on top of our routing and settlement infrastructure.
 
 ## **Built for Policy-Aligned Digital Value**
 

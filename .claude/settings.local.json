@@ -46,7 +46,8 @@
       "Bash(cmd //c taskkill //PID 15716 //F)",
       "Bash(if exist temp_landing_page rmdir /s /q temp_landing_page)",
       "Bash([ -d temp_landing_page ])",
-      "Bash(cmd //c taskkill //PID 15236 //F)"
+      "Bash(cmd //c taskkill //PID 15236 //F)",
+      "Bash(cmd //c taskkill //PID 44156 //F)"
     ],
     "deny": [],
     "ask": []

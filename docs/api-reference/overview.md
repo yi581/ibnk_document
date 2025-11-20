@@ -100,7 +100,7 @@ await fetch('http://localhost:3000/api/v1/transaction/broadcast', {
 ```
 
 ### Method C: Python Scripts (✅ Recommended - No Frontend Required)
-Use Python to call the API, suitable for automated trading scripts.
+Use Python to call the API, suitable for automated settlement and integration scripts.
 
 **Example**:
 ```python
