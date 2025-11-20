@@ -7,7 +7,7 @@ const darkTheme = themes.dracula;
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'iBnk Protocol',
+  title: 'iBnk',
   tagline: 'Decentralized Exchange API Documentation',
   favicon: 'img/favicon.ico',
 
@@ -67,10 +67,10 @@ const config = {
         indexName: 'ibnk',
       },
       navbar: {
-        title: 'iBnk Protocol',
+        title: 'iBnk',
         hideOnScroll: true,
         logo: {
-          alt: 'iBnk Protocol Logo',
+          alt: 'iBnk Logo',
           src: 'img/logo.svg',
           srcDark: 'img/logo.svg',
           href: '/',

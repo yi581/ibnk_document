@@ -18,17 +18,11 @@
 
     &__brand {
       .navbar__brand {
-        display: flex;
+        display: none;
       }
 
       .navbar__logo {
-        display: block;
-        height: auto;
-
-        img {
-          display: block;
-          height: auto;
-        }
+        display: none;
       }
     }
 
