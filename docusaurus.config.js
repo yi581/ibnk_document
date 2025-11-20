@@ -17,8 +17,8 @@ const config = {
   baseUrl: '/',
 
   // GitHub pages deployment config.
-  organizationName: 'your-org',
-  projectName: 'your-project',
+  organizationName: 'ibnk',
+  projectName: 'docs',
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -37,11 +37,11 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           routeBasePath: '/', // Serve docs at the site's root
-          editUrl: 'https://github.com/your-org/your-project/tree/main/',
+          editUrl: 'https://github.com/ibnk/docs/tree/main/',
         },
         blog: {
           showReadingTime: true,
-          editUrl: 'https://github.com/your-org/your-project/tree/main/',
+          editUrl: 'https://github.com/ibnk/docs/tree/main/',
         },
         theme: {
           customCss: [
@@ -61,6 +61,11 @@ const config = {
     ({
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
+      colorMode: {
+        defaultMode: 'dark',
+        disableSwitch: false,
+        respectPrefersColorScheme: false,
+      },
       algolia: {
         appId: 'GX6BVI45L3',
         apiKey: 'd4a3c603e75159478ce46ba620b134f7',
@@ -120,7 +125,7 @@ const config = {
             target: '_blank',
           },
           {
-            href: 'https://github.com/your-org/ibnk-protocol',
+            href: 'https://github.com/ibnk',
             position: 'right',
             className: 'icon-link icon-link-mask icon-link-github',
             'aria-label': 'GitHub repository',
