@@ -40,12 +40,8 @@
     }
 
     &__back {
-      padding-inline-start: 0;
-      padding-inline-end: 0;
-
-      margin: 0;
-
-      background-color: var(--token-primary-bg-c);
+      // Hide the back button in mobile sidebar
+      display: none;
     }
 
     &__close {
