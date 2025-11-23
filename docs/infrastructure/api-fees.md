@@ -54,7 +54,6 @@ The following **do not** count toward usage:
 
 * Documentation browsing
 * SDK usage
-* Local simulator
 * Explorer access (on-chain public data)
 * Static content delivery
 

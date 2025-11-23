@@ -269,6 +269,5 @@ Need help integrating?
 ## Next Steps
 
 1. **Get your API key** by emailing ying@ibnk.xyz
-2. **Review the testnet chains** in [EVM Chain](/developer/evm-chain)
-3. **Start testing** with the Sandbox environment
-4. **Join the community** for updates and support
+2. **Start testing** with the Sandbox environment
+3. **Join the community** for updates and support

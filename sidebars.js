@@ -51,8 +51,6 @@ const sidebars = {
       value: '<div class="sidebar-section-title">Developer</div>',
       defaultStyle: true,
     },
-    'developer/simulator',
-    'developer/evm-chain',
     'developer/api-integrations',
 
     // Infrastructure section
