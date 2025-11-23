@@ -61,7 +61,7 @@ function originSwap(
 
 ## Overview
 
-The IBNK Protocol API provides a RESTful interface for interacting with decentralized exchange (DEX) pools. It supports querying liquidity pool information, previewing swaps, managing token approvals, retrieving Oracle prices, and more.
+The iBnk API offers a RESTful interface for accessing verified liquidity sources and executing routing of fiat-backed stablecoin FX. It supports liquidity queries, FX route previews, token approvals, oracle price retrieval, and more.
 
 **Current Version**: v1.3 (Complete transaction signature transmission documentation)
 **Base URL**: `https://api.ibnk.xyz` (production) or `http://localhost:3000` (local development)

@@ -49,7 +49,9 @@
       "Bash(cmd //c taskkill //PID 15236 //F)",
       "Bash(cmd //c taskkill //PID 44156 //F)",
       "Bash(cmd //c taskkill //PID 42112 //F)",
-      "Bash(cmd //c taskkill //PID 51816 //F)"
+      "Bash(cmd //c taskkill //PID 51816 //F)",
+      "Bash(cat:*)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []

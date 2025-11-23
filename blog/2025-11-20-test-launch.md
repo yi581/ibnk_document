@@ -1,24 +1,24 @@
 ---
 slug: test-version-launch
-title: IBNK Protocol Test Version Now Live
+title: iBnk Test Version Now Live
 authors: [ibnk_team]
 tags: [announcement, launch, beta]
 ---
 
-We're thrilled to announce that the IBNK Protocol test version is officially live today! This marks a significant milestone in our journey to provide a robust, decentralized exchange infrastructure for the blockchain ecosystem.
+We're thrilled to announce that the iBnk test version is officially live today! This marks a significant milestone in our journey to provide a robust, decentralized exchange infrastructure for the blockchain ecosystem.
 
 <!-- truncate -->
 
-## What is IBNK Protocol?
+## What is iBnk?
 
-IBNK Protocol is a cutting-edge decentralized exchange (DEX) protocol designed to enable seamless, secure, and efficient trading of digital assets. Built with performance and security at its core, IBNK Protocol offers developers and traders a powerful API to integrate decentralized trading capabilities into their applications.
+iBnk is a cutting-edge decentralized exchange (DEX) protocol designed to enable seamless, secure, and efficient trading of digital assets. Built with performance and security at its core, iBnk offers developers and traders a powerful API to integrate decentralized trading capabilities into their applications.
 
 ## Test Version Highlights
 
 Our test version release includes several key features that we're excited to share with the community:
 
 ### 1. Core Trading Engine
-The foundation of IBNK Protocol is now operational, featuring:
+The foundation of iBnk is now operational, featuring:
 - High-performance order matching system
 - Support for limit and market orders
 - Real-time order book updates
@@ -47,7 +47,7 @@ Security is paramount in our design:
 
 ## Getting Started with the Test Version
 
-Ready to explore IBNK Protocol? Here's how to get started:
+Ready to explore iBnk? Here's how to get started:
 
 1. **Read the Documentation**: Visit our [Getting Started Guide](/api-reference/quickstart) to understand the basics
 2. **Generate API Keys**: Follow the [Authentication Guide](/api-reference/authentication) to create your test API credentials
@@ -66,7 +66,7 @@ This test version is just the beginning. We're actively working on:
 
 ## We Want Your Feedback
 
-As a test version, we're eager to hear from you! Your feedback is invaluable in helping us refine and improve IBNK Protocol. Please share your thoughts, report bugs, or suggest features through:
+As a test version, we're eager to hear from you! Your feedback is invaluable in helping us refine and improve iBnk. Please share your thoughts, report bugs, or suggest features through:
 
 - **GitHub Issues**: [github.com/your-org/ibnk-protocol](https://github.com/your-org/ibnk-protocol)
 - **Discord Community**: [discord.gg/your-server](https://discord.gg/your-server)
@@ -84,13 +84,13 @@ Please keep in mind:
 
 ## Thank You
 
-We want to extend our gratitude to everyone who has supported the IBNK Protocol project. Your enthusiasm and feedback during the development phase have been instrumental in reaching this milestone.
+We want to extend our gratitude to everyone who has supported the iBnk project. Your enthusiasm and feedback during the development phase have been instrumental in reaching this milestone.
 
 We're committed to building a world-class decentralized exchange protocol, and we couldn't do it without our community. Let's build the future of decentralized finance together!
 
-Happy trading, and welcome to IBNK Protocol!
+Happy trading, and welcome to iBnk!
 
 ---
 
-**IBNK Protocol Team**
+**iBnk Team**
 November 20, 2025

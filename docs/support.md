@@ -4,7 +4,7 @@ sidebar_position: 99
 
 # Support
 
-Need help with IBNK Protocol? We're here to assist you.
+Need help with iBnk? We're here to assist you.
 
 ## Getting Help
 
@@ -104,7 +104,7 @@ Check our system status:
 
 ## Contributing
 
-Want to contribute to IBNK Protocol?
+Want to contribute to iBnk?
 
 - Submit pull requests on [GitHub](https://github.com/your-org/ibnk-protocol)
 - Improve documentation

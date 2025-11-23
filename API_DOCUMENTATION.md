@@ -1,4 +1,4 @@
-# IBNK Protocol API 文档
+# iBnk API 文档
 
 ## 📢 重要更新 (2025-11-20)
 
@@ -56,7 +56,7 @@ function originSwap(
 
 ## 概述
 
-IBNK Protocol API 提供了与去中心化交易所(DEX)池子交互的RESTful接口。支持查询流动性池信息、预览交易、管理代币授权、获取Oracle价格等功能。
+iBnk API 提供了与去中心化交易所(DEX)池子交互的RESTful接口。支持查询流动性池信息、预览交易、管理代币授权、获取Oracle价格等功能。
 
 **当前版本**: v1.3 (完整的交易签名传输文档)
 **基础URL**: `https://api.ibnk.xyz` (生产环境) 或 `http://localhost:3000` (本地开发)
