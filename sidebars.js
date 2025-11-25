@@ -93,6 +93,7 @@ const sidebars = {
     'api-reference/authentication',
     'api-reference/endpoints',
     'api-reference/transaction-signing',
+    'api-reference/faucet',
     'api-reference/reference',
   ],
 };
