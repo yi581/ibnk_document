@@ -16,16 +16,6 @@ please contact: **ying@ibnk.xyz**
 
 ---
 
-## Key Features
-
-- **Real-time exchange rates** via Chainlink Oracles
-- **Low slippage** stablecoin conversions (< 0.05%)
-- **Multi-chain support** (Base Sepolia, Arbitrum Sepolia)
-- **Comprehensive slippage analysis** based on Oracle prices
-- **Secure transaction flow** - private keys never leave your application
-
----
-
 ## Transaction Flow
 
 The API follows a secure transaction flow:

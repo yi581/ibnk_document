@@ -13,14 +13,6 @@ The iBnk API provides a RESTful interface for stablecoin conversions on supporte
 
 **Version**: 2.1.0
 
-## Key Features
-
-- Real-time exchange rates via Chainlink Oracles
-- Low slippage stablecoin conversions (< 0.05%)
-- Multi-chain support (Base Sepolia, Arbitrum Sepolia)
-- Comprehensive slippage analysis based on Oracle prices
-- Secure client-side signing pattern
-
 ## Authentication
 
 All API requests require an API key passed in the `X-API-Key` header:
