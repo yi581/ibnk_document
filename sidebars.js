@@ -88,6 +88,12 @@ const sidebars = {
       defaultStyle: true,
     },
     'api-reference/overview',
+    'api-reference/quickstart',
+    'api-reference/convert-guide',
+    'api-reference/authentication',
+    'api-reference/endpoints',
+    'api-reference/transaction-signing',
+    'api-reference/reference',
   ],
 };
 

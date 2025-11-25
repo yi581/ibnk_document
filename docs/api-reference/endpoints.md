@@ -647,3 +647,322 @@ Get current prices for all tokens (denominated in USD).
 curl -X GET "https://api.ibnk.xyz/api/v1/oracle/prices?chainId=421614" \
   -H "X-API-Key: your_api_key_here"
 ```
+
+---
+
+## Convert Preview
+
+Preview a token conversion and get expected output amount with exchange rate.
+
+**Endpoint**: `POST /api/v1/convert/preview`
+**Authentication**: Required
+
+### Request Body Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| chainId | number | No | Chain ID, defaults to 84532 |
+| poolAddress | string | Yes | Liquidity pool address |
+| tokenIn | string | Yes | Input token address |
+| tokenOut | string | Yes | Output token address |
+| amountIn | string | Yes | Amount to convert (human-readable format) |
+
+### Response Example
+
+```json
+{
+  "success": true,
+  "data": {
+    "amountIn": "100",
+    "amountOut": "154.752590",
+    "tokenIn": {
+      "address": "0xB209B4f21a233751EEd1C11747b1f06850fE6ca2",
+      "symbol": "USDC",
+      "decimals": 6
+    },
+    "tokenOut": {
+      "address": "0xb5dC8d3fcFd2277f2C6ae87e766732c00A7EfbF3",
+      "symbol": "AUDM",
+      "decimals": 6
+    },
+    "exchangeRate": "1.547526",
+    "inverseRate": "0.646193",
+    "fee": "0.05%",
+    "recommendedMinAmountOut": "154.675212"
+  }
+}
+```
+
+### Response Fields
+
+| Field | Description |
+|-------|-------------|
+| `amountOut` | Expected output amount |
+| `exchangeRate` | Rate of tokenIn to tokenOut |
+| `inverseRate` | Rate of tokenOut to tokenIn |
+| `fee` | Pool fee (0.05% for stablecoins) |
+| `recommendedMinAmountOut` | Minimum output with 0.05% tolerance |
+
+### Example Request
+
+```bash
+curl -X POST "https://api.ibnk.xyz/api/v1/convert/preview" \
+  -H "X-API-Key: your_api_key_here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "chainId": 84532,
+    "poolAddress": "0xEd1FAF5Ed63dA5b47CBc44f7696E701cb613bB57",
+    "tokenIn": "0xB209B4f21a233751EEd1C11747b1f06850fE6ca2",
+    "tokenOut": "0xb5dC8d3fcFd2277f2C6ae87e766732c00A7EfbF3",
+    "amountIn": "100"
+  }'
+```
+
+---
+
+## Build Convert Transaction
+
+Build an unsigned convert (swap) transaction.
+
+**Endpoint**: `POST /api/v1/transaction/build/convert`
+**Authentication**: Required
+
+### Request Body Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| chainId | number | No | Network ID (default: 84532) |
+| userAddress | string | Yes | User's wallet address |
+| tokenIn | string | Yes | Input token address |
+| tokenOut | string | Yes | Output token address |
+| amountIn | string | Yes | Amount to convert (human-readable) |
+| minAmountOut | string | Yes | Minimum output (use `recommendedMinAmountOut` from preview) |
+| deadline | number | No | Unix timestamp (default: now + 5 minutes) |
+
+### Response Example
+
+```json
+{
+  "success": true,
+  "data": {
+    "to": "0x9647B25aFf27F1c36f77dFec2560a8696B59dbdE",
+    "data": "0x...",
+    "value": "0",
+    "chainId": 84532,
+    "gasLimit": "254664",
+    "maxFeePerGas": "1500000000",
+    "maxPriorityFeePerGas": "1000000000"
+  }
+}
+```
+
+### Example Request
+
+```bash
+curl -X POST "https://api.ibnk.xyz/api/v1/transaction/build/convert" \
+  -H "X-API-Key: your_api_key_here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "chainId": 84532,
+    "userAddress": "0xYourWalletAddress",
+    "tokenIn": "0xB209B4f21a233751EEd1C11747b1f06850fE6ca2",
+    "tokenOut": "0xb5dC8d3fcFd2277f2C6ae87e766732c00A7EfbF3",
+    "amountIn": "100",
+    "minAmountOut": "154.675212"
+  }'
+```
+
+---
+
+## Broadcast Convert Transaction
+
+Broadcast a convert transaction and receive detailed slippage analysis based on Oracle prices.
+
+**Endpoint**: `POST /api/v1/transaction/broadcast/convert`
+**Authentication**: Required
+
+### Request Body Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| chainId | number | No | Network ID (default: 84532) |
+| signedTransaction | string | Yes | Signed transaction hex |
+| expectedAmountOut | string | Yes | Expected output from preview |
+| amountIn | string | Yes | Input amount |
+| tokenIn | string | Yes | Input token address |
+| tokenOut | string | Yes | Output token address |
+
+### Response Example
+
+```json
+{
+  "success": true,
+  "data": {
+    "transactionHash": "0x04e4413725593915b8afcfe657df675e76b046b6e0500e164b9cc810b76d7681",
+    "status": "success",
+    "blockNumber": 12345678,
+    "gasUsed": "212220",
+    "convert": {
+      "amountIn": "10",
+      "expectedAmountOut": "15.475259",
+      "actualAmountOut": "15.475646",
+      "oracleAmountOut": "15.483000",
+      "fee": {
+        "rate": "0.05%",
+        "amount": "0.007742"
+      },
+      "slippage": "-0.0025%",
+      "executedRate": "1.547565",
+      "oracleRate": "1.548300"
+    }
+  }
+}
+```
+
+### Response Fields Explained
+
+| Field | Description |
+|-------|-------------|
+| `oracleAmountOut` | Theoretical output based on Chainlink Oracle price (before fee) |
+| `actualAmountOut` | Actual tokens received |
+| `fee.rate` | Pool fee rate (fixed 0.05%) |
+| `fee.amount` | Fee amount in output token |
+| `slippage` | Pure market slippage (excludes fee). Negative = better than Oracle |
+| `executedRate` | Actual exchange rate received |
+| `oracleRate` | Current Oracle exchange rate |
+
+### Slippage Calculation
+
+```
+Oracle Theoretical (after fee) = oracleAmountOut × (1 - 0.0005)
+Slippage = (Oracle Theoretical after fee - actualAmountOut) / Oracle Theoretical after fee × 100%
+```
+
+- **Positive slippage** = loss (received less than Oracle rate)
+- **Negative slippage** = gain (received better than Oracle rate)
+
+---
+
+## Faucet (Testnet)
+
+Claim test tokens on testnet networks.
+
+### Get Faucet Info
+
+**Endpoint**: `GET /api/v1/faucet/info`
+**Authentication**: Required
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| chainId | number | Yes | Network ID |
+| userAddress | string | No | Check claim status for user |
+
+---
+
+### Get Available Tokens
+
+**Endpoint**: `GET /api/v1/faucet/tokens`
+**Authentication**: Required
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| chainId | number | Yes | Network ID |
+
+---
+
+### Build Claim All Transaction
+
+Build a transaction to claim all test tokens.
+
+**Endpoint**: `POST /api/v1/faucet/build/claim-all`
+**Authentication**: Required
+
+#### Request Body Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| chainId | number | Yes | Network ID |
+| userAddress | string | Yes | User's wallet address |
+
+#### Response Example
+
+```json
+{
+  "success": true,
+  "data": {
+    "to": "0x432a163B26DaB6D5f386d8C4F70032f670686238",
+    "data": "0x...",
+    "value": "0",
+    "chainId": 84532,
+    "gasLimit": "300000"
+  }
+}
+```
+
+#### Example Request
+
+```bash
+curl -X POST "https://api.ibnk.xyz/api/v1/faucet/build/claim-all" \
+  -H "X-API-Key: your_api_key_here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "chainId": 84532,
+    "userAddress": "0xYourWalletAddress"
+  }'
+```
+
+---
+
+## Transaction Status
+
+Check the status of a transaction.
+
+**Endpoint**: `POST /api/v1/transaction/status`
+**Authentication**: Required
+
+### Request Body Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| chainId | number | No | Network ID (default: 84532) |
+| transactionHash | string | Yes | Transaction hash |
+
+### Response Example
+
+```json
+{
+  "success": true,
+  "data": {
+    "status": "success",
+    "blockNumber": 12345678,
+    "confirmations": 5,
+    "gasUsed": "212220"
+  }
+}
+```
+
+---
+
+## Get Nonce
+
+Get the current nonce for an address.
+
+**Endpoint**: `GET /api/v1/transaction/nonce/:address`
+**Authentication**: Required
+
+### Query Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| chainId | number | 84532 | Network ID |
+
+### Example Request
+
+```bash
+curl -X GET "https://api.ibnk.xyz/api/v1/transaction/nonce/0xYourWalletAddress?chainId=84532" \
+  -H "X-API-Key: your_api_key_here"
+```
