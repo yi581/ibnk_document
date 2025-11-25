@@ -1,59 +1,36 @@
 ---
-sidebar_position: 3
+sidebar_position: 4
 title: Authentication
 ---
 
-# Authentication & Setup
+# Authentication
 
-## Supported Blockchains
+All API requests require an API key passed in the `X-API-Key` header.
 
-| Chain Name | Chain ID | Network Type |
-|------------|----------|--------------|
-| Base Sepolia | 84532 | Testnet |
-| Arbitrum Sepolia | 421614 | Testnet |
-
-## Authentication
-
-All API requests require an API key to be included in the HTTP headers:
-
-```http
-X-API-Key: your_api_key_here
+```bash
+curl -H "X-API-Key: your_api_key" https://api.ibnk.xyz/api/v1/pools
 ```
 
-### Obtaining an API Key
+## Request Headers
 
-#### Option 1: Request from Administrator (Recommended)
+| Header | Required | Description |
+|--------|----------|-------------|
+| `X-API-Key` | Yes | Your API key for authentication |
+| `Content-Type` | Yes (POST) | `application/json` |
 
-If your organization already has access to the IBNK API, contact your administrator to create a key through the Admin API:
+## Obtaining an API Key
 
-1. Administrator uses the Admin Key to call the Create API Key endpoint
-2. Administrator sends the generated API Key to you
-3. You can use it immediately (no waiting required, takes effect in real-time)
+To request access to the **iBnk Sandbox Environment (Testnet API)**, please contact: **ying@ibnk.xyz**
 
-See: [Admin Endpoints Documentation](#管理端点-admin-api)
+**Application Information**:
+- Your name/company name
+- Contact email
+- Use case description
+- Expected request volume
 
-#### Option 2: Apply for New Account
+## Testing API Connection
 
-If you are a new user, apply through the following channels:
-
-1. **Contact Information**:
-   - Email: support@ibnk.xyz
-   - Discord: https://discord.gg/ibnk
-   - Website: https://ibnk.xyz
-
-2. **Application Information**:
-   - Your name/company name
-   - Contact email
-   - Use case description
-   - Expected request volume
-
-3. **Review Time**: Typically 1-2 business days
-
-4. **Receive Key**: After approval, we will send the API Key to your email
-
-### Testing API Connection
-
-After obtaining your API Key, test the connection using the following simple request:
+After obtaining your API Key, test the connection:
 
 ```bash
 # Test connection (health check, no API Key required)
@@ -61,10 +38,10 @@ curl -X GET "https://api.ibnk.xyz/health"
 
 # Test authentication (API Key required)
 curl -X GET "https://api.ibnk.xyz/api/v1/pools?chainId=84532" \
-  -H "X-API-Key: your_api_key_here"
+  -H "X-API-Key: your_api_key"
 ```
 
-**Expected Response**:
+**Expected Response:**
 ```json
 {
   "success": true,
@@ -75,16 +52,18 @@ curl -X GET "https://api.ibnk.xyz/api/v1/pools?chainId=84532" \
 }
 ```
 
-### Example Request
+## Supported Networks
 
-```bash
-curl -X GET "https://api.ibnk.xyz/api/v1/pools?chainId=421614" \
-  -H "X-API-Key: your_api_key_here"
-```
+| Network | Chain ID | Status |
+|---------|----------|--------|
+| Base Sepolia | `84532` | Testnet |
+| Arbitrum Sepolia | `421614` | Testnet |
 
-## Rate Limiting
+## Rate Limits
 
-- Window Period: 15 minutes (900,000 milliseconds)
-- Maximum Requests: 100 requests/window period
+| Limit | Value |
+|-------|-------|
+| Requests per 15 minutes | 100 |
+| Burst limit | 10 requests/second |
 
 Exceeding the limit will return a `429 Too Many Requests` error.

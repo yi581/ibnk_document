@@ -7,83 +7,66 @@ title: Reference
 
 ## Error Handling
 
-### Error Response Format
-
-All error responses follow a unified format:
+All error responses follow this format:
 
 ```json
 {
   "success": false,
-  "error": "Error message",
-  "code": "ERROR_CODE",
-  "message": "Detailed description"
+  "error": "Error message description"
 }
 ```
 
 ### Common Error Codes
 
-| HTTP Status Code | Error Code | Description |
-|-----------------|-----------|-------------|
-| 400 | INVALID_PARAMETERS | Invalid request parameters |
-| 401 | MISSING_API_KEY | Missing API key |
-| 401 | INVALID_API_KEY | Invalid API key |
-| 404 | NOT_FOUND | Resource not found |
-| 429 | RATE_LIMIT_EXCEEDED | Rate limit exceeded |
-| 500 | INTERNAL_ERROR | Internal server error |
+| HTTP Status | Error | Description |
+|-------------|-------|-------------|
+| 400 | Bad Request | Invalid parameters |
+| 401 | Unauthorized | Missing or invalid API key |
+| 404 | Not Found | Endpoint not found |
+| 429 | Too Many Requests | Rate limit exceeded |
+| 500 | Internal Error | Server error |
 
-### Error Examples
+### Contract Errors
 
-```json
-// Missing API Key
-{
-  "success": false,
-  "error": "API Key Required",
-  "message": "Please provide an API Key in X-API-Key header",
-  "code": "MISSING_API_KEY"
-}
-
-// Parameter validation failed
-{
-  "success": false,
-  "error": "\"amountIn\" is required"
-}
-
-// Blockchain error
-{
-  "success": false,
-  "error": "execution reverted: \"Curve/swap-convergence-failed\""
-}
-```
+| Error | Description |
+|-------|-------------|
+| `iBnk/stale-price` | Oracle price is stale (>1 hour old) |
+| `iBnk/above-max-origin` | Amount exceeds pool limits |
+| `iBnk/below-min-target` | Output below minimum threshold |
 
 ---
 
-## Token Address Reference
+## Contract Addresses
 
-### Arbitrum Sepolia (ChainId: 421614)
+### Base Sepolia (chainId: 84532)
 
-| Token | Address | Decimals |
-|-------|---------|----------|
-| AUDM | `0x5d2Cc73f18eD0ff564f87c26842f8E2f00f6eEEe` | 6 |
-| USDC | `0x0911372aaB79EDd1e61F06c6F2b1a7eF342B6D51` | 6 |
-| EURC | `0x33a07F7298CEFfea8314aD6fC2f80BD86Fb1Ee1B` | 6 |
+| Contract | Address |
+|----------|---------|
+| Router | `0x9647B25aFf27F1c36f77dFec2560a8696B59dbdE` |
+| Zap | `0xb41C8c97299964aa79b611a5Ec288F25850Cf2ca` |
+| Factory | `0xeFA9493E856a449cAe87a9fF2B740B331201d785` |
+| USDC | `0xB209B4f21a233751EEd1C11747b1f06850fE6ca2` |
+| AUDM | `0xb5dC8d3fcFd2277f2C6ae87e766732c00A7EfbF3` |
+| EURC | `0x1e00beAf9Db905e1098A8224fa21E93b260DB7eC` |
+| AUDM/USDC Pool | `0xEd1FAF5Ed63dA5b47CBc44f7696E701cb613bB57` |
+| EURC/USDC Pool | `0xd5D220DDF70d6CdD465E3EDD12fc3AB25C31A163` |
+| EURC/AUDM Pool | `0x91e50A3d956Ce17661A393Ca6FA9519d441cfbf2` |
+| Faucet | `0x432a163B26DaB6D5f386d8C4F70032f670686238` |
 
-**Liquidity Pool Addresses**:
-- AUDM/USDC: `0x51964B217C5477C059667CE3e82cE2e9302B0241`
-- EURC/USDC: `0x883581889b9352CcC63e457C71dAFFbB20Ee5fb9`
-- EURC/AUDM: `0x8D6970eB52Ca7FA2CC07517B2936ab3DF9F479c0`
+### Arbitrum Sepolia (chainId: 421614)
 
-### Base Sepolia (ChainId: 84532)
-
-| Token | Address | Decimals |
-|-------|---------|----------|
-| AUDM | `0xbe8bCb2E781214F3403Cc85327d2173642A0BD86` | 6 |
-| USDC | `0x340Ca64911c2C9E85c994690F805984104e054Fa` | 6 |
-| EURC | `0x69567Ab34CE8EB13A837d40B2714d569d0b51a37` | 6 |
-
-**Liquidity Pool Addresses**:
-- AUDM/USDC: `0x875BFCc05e2227E38C8de637Abf0C94A2DAEAE7a`
-- EURC/USDC: `0xaf16e2eAA39057911876d40f9BfDd3E97A086c6e`
-- EURC/AUDM: `0x8F6a4B1BC072b58e55fC6C46cCbdCAb0e6224F15`
+| Contract | Address |
+|----------|---------|
+| Router | `0xbE26A3B762a5F7eAd86731E63d60f359e382cdaC` |
+| Zap | `0x14ba424AbEA6cF9e32a61376DD80Fb84793DBd20` |
+| Factory | `0xa6cEa2B641600343F01849fc580802bebEd2f71B` |
+| USDC | `0x9311cA9F222ba12575099383498e7348eF39b3A7` |
+| AUDM | `0xf36a31074aDdD28dAd8d9C21C834cc6d1f569831` |
+| EURC | `0x284B49f8463Ee7e0d709C430f29AD0104506C392` |
+| AUDM/USDC Pool | `0x186eD80ecDD8dFcb108D19Ac22Bc3C256CfF633a` |
+| EURC/USDC Pool | `0xb02E45e4E479faFAC2C0A75EDbc48E8659c9b274` |
+| EURC/AUDM Pool | `0xF3A8f6EeBb8b45887700A87692f5Ae605D44c3cD` |
+| Faucet | `0x0eb211d75a7b77034dE6913E80A0e8D88C422a41` |
 
 ---
 
@@ -94,10 +77,10 @@ All error responses follow a unified format:
 All amount parameters use **human-readable format**, the API automatically handles precision conversion:
 
 ```javascript
-// ✅ Correct
+// Correct
 { "amountIn": "1000" }
 
-// ❌ Wrong (do not use wei values)
+// Wrong (do not use wei values)
 { "amountIn": "1000000000" }
 ```
 
@@ -106,7 +89,7 @@ All amount parameters use **human-readable format**, the API automatically handl
 Always check the `success` field:
 
 ```javascript
-const response = await fetch('/api/v1/swap/preview', {
+const response = await fetch('/api/v1/convert/preview', {
   method: 'POST',
   headers: {
     'X-API-Key': 'your_api_key',
@@ -126,105 +109,52 @@ if (data.success) {
 }
 ```
 
-### 3. Chain Selection Recommendations
+### 3. Slippage Protection
 
-- **Arbitrum Sepolia**: Recommended, more liquidity available (747k+ AUDM)
-- **Base Sepolia**: Less liquidity (24k AUDM), suitable for small-scale testing
-
-### 4. Slippage Protection
-
-The `minimumAmountOut` returned by Swap preview already includes 1% slippage protection. Use this value as the minimum output amount when executing the actual transaction:
+Use `recommendedMinAmountOut` from the preview response as the minimum output amount:
 
 ```javascript
-const preview = await getSwapPreview();
-const minOutput = preview.minimumAmountOut; // Already includes 1% slippage
+const preview = await getConvertPreview();
+const minOutput = preview.data.recommendedMinAmountOut; // Includes 0.05% tolerance
 ```
 
-### 5. Approval Management
+### 4. Approval Management
 
 Always check and handle approvals before executing transactions:
 
 ```javascript
 // 1. Check approval status
 const approvalStatus = await checkApproval({
-  tokenAddress: '0x...',
+  tokenAddress: USDC,
   ownerAddress: userAddress,
-  spenderAddress: poolAddress,
+  spenderAddress: ROUTER,
   requiredAmount: '1000'
 });
 
-// 2. If approval is needed, build approval transaction
-if (approvalStatus.needsApproval) {
+// 2. If approval is needed, build and send approval transaction
+if (approvalStatus.data.needsApproval) {
   const approvalTx = await buildApprovalTransaction({
-    tokenAddress: '0x...',
-    spenderAddress: poolAddress,
-    amount: '1000'
+    tokenAddress: USDC,
+    spenderAddress: ROUTER,
+    amount: '1000',
+    isUnlimited: true
   });
 
-  // 3. User signs and sends approval transaction
-  await wallet.sendTransaction(approvalTx.transaction);
+  // User signs and sends approval transaction
+  await wallet.sendTransaction(approvalTx.data.transaction);
 }
 
-// 4. Execute actual transaction
+// 3. Execute convert transaction
 ```
 
 ---
 
-## Changelog
+## Support
 
-### v1.3.0 (2025-11-20)
+For API support or to request an API key, please contact:
 
-- **Complete Transaction Signing Flow Documentation** - Important Update!
-  - ✅ Added comprehensive documentation for 5 transaction endpoints
-    - `/api/v1/transaction/build/swap` - Build Swap transaction
-    - `/api/v1/transaction/build/approve` - Build approval transaction
-    - `/api/v1/transaction/broadcast` - Broadcast signed transaction
-    - `/api/v1/transaction/status` - Query transaction status
-    - `/api/v1/transaction/nonce/:address` - Get user nonce
-  - ✅ Added complete end-to-end signing flow example code
-  - ✅ Detailed parameter descriptions and response formats
-  - ✅ Security best practices and workflow documentation
-- **Real Test Case Updates**
-  - ✅ Added Base Sepolia successful test case
-    - Transaction hash: 0xfbf119aef1e4e451c6009aa4ba0721bb8f81126a3fe0293c69fed75e1549fc79
-    - 10 AUDM → 6.49675 USDC
-    - Gas efficiency: 66% (209,728 / 317,966)
-  - ✅ Complete 6-step signing flow demonstration
-  - ✅ Real API call examples and response data
-- Documentation Structure Optimization
-  - ✅ Transaction signing endpoints organized as independent section
-  - ✅ Clearer endpoint numbering and categorization
-  - ✅ Enhanced code examples and comments
-
-### v1.2.0 (2025-11-20)
-
-- **Database API Key Management System** - Major Upgrade!
-  - ✅ Dynamic add/remove API Keys (no service restart required)
-  - ✅ Real-time enable/disable functionality
-  - ✅ Usage statistics and tracking (usage_count, last_used_at)
-  - ✅ Automatic expiration management (configurable expiresInDays)
-  - ✅ Complete management API (6 endpoints)
-  - ✅ Admin Key authentication protection
-  - ✅ Automatic fallback to environment variables when database unavailable
-- Updated API documentation with complete management endpoint descriptions
-- Security enhancement: Management functions restricted to administrator access only
-
-### v1.1.0 (2025-11-20)
-
-- ✅ **Fixed Router Interface** - Using correct `originSwap` signature (path array)
-- ✅ Fixed Token decimals handling (using separate decimals for tokenIn and tokenOut)
-- ✅ Verified Swap functionality working properly
-- ✅ Added success cases and troubleshooting documentation
-- Test transaction: [0x2b8496b6...](https://sepolia.arbiscan.io/tx/0x2b8496b6135f4f4bfb8e16fb5712bb2b1b059a897c4466e1f99d09239b0a114d)
-
-### v1.0.0 (2025-11-19)
-
-- Initial release
-- Support for Base Sepolia and Arbitrum Sepolia testnets
-- Pool query, Swap preview, liquidity management, approval management, Oracle pricing features
-- API Key authentication and rate limiting implementation
+- **Email**: ying@ibnk.xyz
 
 ---
 
-**Last Updated**: November 20, 2025
-**Version**: 1.3.0
+*Documentation Version: 2.1.0 | Last Updated: 2025-11-25*

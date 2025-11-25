@@ -1,5 +1,5 @@
 ---
-sidebar_position: 5
+sidebar_position: 6
 title: Transaction Signing
 ---
 
@@ -9,17 +9,19 @@ These endpoints implement a **secure client-side signing pattern** where private
 
 ## Workflow
 
-1. **Build Transaction** → API generates unsigned transaction data
-2. **Local Signing** → Client signs locally using private key
-3. **Broadcast Transaction** → Send signed transaction to blockchain
-4. **Query Status** → Track transaction confirmation status
+1. **Preview** - Get expected output and exchange rate
+2. **Check Approval** - Verify token approval status
+3. **Build Transaction** - API generates unsigned transaction data
+4. **Local Signing** - Client signs locally using private key
+5. **Broadcast Transaction** - Send signed transaction to blockchain
 
-## Build Swap Transaction
+---
 
-Generate unsigned transaction data for a swap. Users sign locally and then broadcast.
+## Build Convert Transaction
 
-**Endpoint**: `POST /api/v1/transaction/build/swap`
-**Authentication**: Required
+Generate unsigned transaction data for a token conversion.
+
+**Endpoint**: `POST /api/v1/transaction/build/convert`
 
 ### Request Body Parameters
 
@@ -30,8 +32,8 @@ Generate unsigned transaction data for a swap. Users sign locally and then broad
 | tokenIn | string | Yes | Input token address |
 | tokenOut | string | Yes | Output token address |
 | amountIn | string | Yes | Input amount (human-readable format) |
-| minAmountOut | string | Yes | Minimum output amount (slippage protection) |
-| deadline | number | No | Transaction deadline (Unix timestamp in seconds), defaults to current time + 5 minutes |
+| minAmountOut | string | Yes | Minimum output amount (use `recommendedMinAmountOut` from preview) |
+| deadline | number | No | Transaction deadline (Unix timestamp), defaults to now + 5 minutes |
 
 ### Response Example
 
@@ -39,13 +41,13 @@ Generate unsigned transaction data for a swap. Users sign locally and then broad
 {
   "success": true,
   "data": {
-    "to": "0x464B3Ad497B558E1BE73a550631CA462632651bc",
+    "to": "0x9647B25aFf27F1c36f77dFec2560a8696B59dbdE",
     "data": "0x8f0c8...",
     "value": "0",
     "chainId": 84532,
-    "gasLimit": "317966",
-    "maxFeePerGas": "1068026",
-    "maxPriorityFeePerGas": "1000000"
+    "gasLimit": "254664",
+    "maxFeePerGas": "1500000000",
+    "maxPriorityFeePerGas": "1000000000"
   }
 }
 ```
@@ -53,69 +55,16 @@ Generate unsigned transaction data for a swap. Users sign locally and then broad
 ### Example Request
 
 ```bash
-curl -X POST "https://api.ibnk.xyz/api/v1/transaction/build/swap" \
-  -H "X-API-Key: your_api_key_here" \
+curl -X POST "https://api.ibnk.xyz/api/v1/transaction/build/convert" \
+  -H "X-API-Key: your_api_key" \
   -H "Content-Type: application/json" \
   -d '{
     "chainId": 84532,
     "userAddress": "0xYourWalletAddress",
-    "tokenIn": "0xbe8bCb2E781214F3403Cc85327d2173642A0BD86",
-    "tokenOut": "0x340Ca64911c2C9E85c994690F805984104e054Fa",
+    "tokenIn": "0xB209B4f21a233751EEd1C11747b1f06850fE6ca2",
+    "tokenOut": "0xb5dC8d3fcFd2277f2C6ae87e766732c00A7EfbF3",
     "amountIn": "10",
-    "minAmountOut": "6.43"
-  }'
-```
-
----
-
-## Build Approve Transaction
-
-Generate unsigned transaction data for token approval.
-
-**Endpoint**: `POST /api/v1/transaction/build/approve`
-**Authentication**: Required
-
-### Request Body Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| chainId | number | No | Chain ID, defaults to 84532 |
-| userAddress | string | Yes | User wallet address |
-| tokenAddress | string | Yes | Token contract address |
-| spenderAddress | string | Yes | Authorized contract address (Router) |
-| amount | string | Yes | Approval amount |
-| isUnlimited | boolean | No | Whether to grant unlimited approval, defaults to false |
-
-### Response Example
-
-```json
-{
-  "success": true,
-  "data": {
-    "to": "0xbe8bCb2E781214F3403Cc85327d2173642A0BD86",
-    "data": "0x095ea7b3...",
-    "value": "0",
-    "chainId": 84532,
-    "gasLimit": "55963",
-    "maxFeePerGas": "1068026",
-    "maxPriorityFeePerGas": "1000000"
-  }
-}
-```
-
-### Example Request
-
-```bash
-curl -X POST "https://api.ibnk.xyz/api/v1/transaction/build/approve" \
-  -H "X-API-Key: your_api_key_here" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "chainId": 84532,
-    "userAddress": "0xYourWalletAddress",
-    "tokenAddress": "0xbe8bCb2E781214F3403Cc85327d2173642A0BD86",
-    "spenderAddress": "0x464B3Ad497B558E1BE73a550631CA462632651bc",
-    "amount": "10000",
-    "isUnlimited": false
+    "minAmountOut": "15.467521"
   }'
 ```
 
@@ -126,7 +75,6 @@ curl -X POST "https://api.ibnk.xyz/api/v1/transaction/build/approve" \
 Broadcast a client-signed transaction to the blockchain.
 
 **Endpoint**: `POST /api/v1/transaction/broadcast`
-**Authentication**: Required
 
 ### Request Body Parameters
 
@@ -141,34 +89,67 @@ Broadcast a client-signed transaction to the blockchain.
 {
   "success": true,
   "data": {
-    "transactionHash": "0xfbf119aef1e4e451c6009aa4ba0721bb8f81126a3fe0293c69fed75e1549fc79",
-    "status": "pending",
-    "blockNumber": null,
-    "confirmations": 0
+    "transactionHash": "0x...",
+    "status": "success",
+    "blockNumber": 12345678,
+    "gasUsed": "212220"
   }
 }
 ```
 
-### Example Request
+---
 
-```bash
-curl -X POST "https://api.ibnk.xyz/api/v1/transaction/broadcast" \
-  -H "X-API-Key: your_api_key_here" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "chainId": 84532,
-    "signedTransaction": "0x02f8..."
-  }'
+## Broadcast Convert Transaction
+
+Broadcast a convert transaction and receive detailed slippage analysis.
+
+**Endpoint**: `POST /api/v1/transaction/broadcast/convert`
+
+### Request Body Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| chainId | number | No | Chain ID, defaults to 84532 |
+| signedTransaction | string | Yes | Signed transaction (hex format) |
+| expectedAmountOut | string | Yes | Expected output from preview |
+| amountIn | string | Yes | Input amount |
+| tokenIn | string | Yes | Input token address |
+| tokenOut | string | Yes | Output token address |
+
+### Response Example
+
+```json
+{
+  "success": true,
+  "data": {
+    "transactionHash": "0x04e4413725593915b8afcfe657df675e76b046b6e0500e164b9cc810b76d7681",
+    "status": "success",
+    "blockNumber": 12345678,
+    "gasUsed": "212220",
+    "convert": {
+      "amountIn": "10",
+      "expectedAmountOut": "15.475259",
+      "actualAmountOut": "15.475646",
+      "oracleAmountOut": "15.483000",
+      "fee": {
+        "rate": "0.05%",
+        "amount": "0.007742"
+      },
+      "slippage": "-0.0025%",
+      "executedRate": "1.547565",
+      "oracleRate": "1.548300"
+    }
+  }
+}
 ```
 
 ---
 
 ## Query Transaction Status
 
-Query the current status and confirmation count of a broadcasted transaction.
+Query the current status of a broadcasted transaction.
 
 **Endpoint**: `POST /api/v1/transaction/status`
-**Authentication**: Required
 
 ### Request Body Parameters
 
@@ -184,45 +165,26 @@ Query the current status and confirmation count of a broadcasted transaction.
   "success": true,
   "data": {
     "status": "success",
-    "blockNumber": 33904774,
-    "confirmations": 16,
-    "gasUsed": "209728"
+    "blockNumber": 12345678,
+    "confirmations": 5,
+    "gasUsed": "212220"
   }
 }
 ```
 
-### Status Descriptions
+### Status Values
 
 - `pending`: Transaction submitted, awaiting inclusion in a block
 - `success`: Transaction successfully confirmed
 - `failed`: Transaction failed (reverted)
 
-### Example Request
-
-```bash
-curl -X POST "https://api.ibnk.xyz/api/v1/transaction/status" \
-  -H "X-API-Key: your_api_key_here" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "chainId": 84532,
-    "transactionHash": "0xfbf119aef1e4e451c6009aa4ba0721bb8f81126a3fe0293c69fed75e1549fc79"
-  }'
-```
-
 ---
 
 ## Get User Nonce
 
-Retrieve the current nonce value for a user address, used for constructing transactions.
+Retrieve the current nonce for a user address.
 
 **Endpoint**: `GET /api/v1/transaction/nonce/:address`
-**Authentication**: Required
-
-### Path Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| address | string | Yes | User wallet address |
 
 ### Query Parameters
 
@@ -241,18 +203,11 @@ Retrieve the current nonce value for a user address, used for constructing trans
 }
 ```
 
-### Example Request
-
-```bash
-curl -X GET "https://api.ibnk.xyz/api/v1/transaction/nonce/0xYourWalletAddress?chainId=84532" \
-  -H "X-API-Key: your_api_key_here"
-```
-
 ---
 
 ## Complete Example
 
-The following example demonstrates a complete signing workflow implementation using ethers.js:
+Complete signing workflow using ethers.js:
 
 ```javascript
 const { ethers } = require('ethers');
@@ -260,185 +215,141 @@ const { ethers } = require('ethers');
 const API_URL = 'https://api.ibnk.xyz';
 const API_KEY = 'your_api_key';
 const RPC_URL = 'https://sepolia.base.org';
-const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const PRIVATE_KEY = 'your_private_key';
+const CHAIN_ID = 84532;
 
-async function executeSwap() {
+// Contract addresses (Base Sepolia)
+const USDC = '0xB209B4f21a233751EEd1C11747b1f06850fE6ca2';
+const AUDM = '0xb5dC8d3fcFd2277f2C6ae87e766732c00A7EfbF3';
+const POOL = '0xEd1FAF5Ed63dA5b47CBc44f7696E701cb613bB57';
+const ROUTER = '0x9647B25aFf27F1c36f77dFec2560a8696B59dbdE';
+
+async function api(endpoint, method = 'GET', body = null) {
+  const options = {
+    method,
+    headers: {
+      'X-API-Key': API_KEY,
+      'Content-Type': 'application/json'
+    }
+  };
+  if (body) options.body = JSON.stringify(body);
+  const res = await fetch(API_URL + endpoint, options);
+  return res.json();
+}
+
+async function executeConvert() {
   // 1. Create wallet
   const provider = new ethers.JsonRpcProvider(RPC_URL);
   const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
-
   console.log('Wallet address:', wallet.address);
 
-  // 2. Preview swap
-  const previewResponse = await fetch(`${API_URL}/api/v1/swap/preview`, {
-    method: 'POST',
-    headers: {
-      'X-API-Key': API_KEY,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      chainId: 84532,
-      poolAddress: '0x875BFCc05e2227E38C8de637Abf0C94A2DAEAE7a',
-      tokenIn: '0xbe8bCb2E781214F3403Cc85327d2173642A0BD86',
-      tokenOut: '0x340Ca64911c2C9E85c994690F805984104e054Fa',
-      amountIn: '10'
-    })
+  // 2. Preview conversion
+  const preview = await api('/api/v1/convert/preview', 'POST', {
+    chainId: CHAIN_ID,
+    poolAddress: POOL,
+    tokenIn: USDC,
+    tokenOut: AUDM,
+    amountIn: '10'
   });
-  const preview = await previewResponse.json();
-  console.log('Expected output:', preview.data.amountOut, 'USDC');
+
+  if (!preview.success) throw new Error(preview.error);
+  console.log('Expected output:', preview.data.amountOut, 'AUDM');
 
   // 3. Check approval
-  const approvalCheckResponse = await fetch(`${API_URL}/api/v1/approval/check`, {
-    method: 'POST',
-    headers: {
-      'X-API-Key': API_KEY,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      chainId: 84532,
-      tokenAddress: '0xbe8bCb2E781214F3403Cc85327d2173642A0BD86',
-      ownerAddress: wallet.address,
-      spenderAddress: '0x464B3Ad497B558E1BE73a550631CA462632651bc',
-      requiredAmount: '10'
-    })
+  const approval = await api('/api/v1/approval/check', 'POST', {
+    chainId: CHAIN_ID,
+    tokenAddress: USDC,
+    ownerAddress: wallet.address,
+    spenderAddress: ROUTER,
+    requiredAmount: '10'
   });
-  const approvalCheck = await approvalCheckResponse.json();
 
-  // 4. If approval is needed, execute approval transaction
-  if (approvalCheck.data.needsApproval) {
-    console.log('Approval needed, building approval transaction...');
+  // 4. Handle approval if needed
+  if (approval.data.needsApproval) {
+    console.log('Approval needed...');
 
-    // 4a. Build approval transaction
-    const buildApproveResponse = await fetch(`${API_URL}/api/v1/transaction/build/approve`, {
-      method: 'POST',
-      headers: {
-        'X-API-Key': API_KEY,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        chainId: 84532,
-        userAddress: wallet.address,
-        tokenAddress: '0xbe8bCb2E781214F3403Cc85327d2173642A0BD86',
-        spenderAddress: '0x464B3Ad497B558E1BE73a550631CA462632651bc',
-        amount: '10000',
-        isUnlimited: false
-      })
+    const approveRes = await api('/api/v1/approval/build', 'POST', {
+      chainId: CHAIN_ID,
+      tokenAddress: USDC,
+      spenderAddress: ROUTER,
+      amount: '10',
+      isUnlimited: true
     });
-    const approveTxData = await buildApproveResponse.json();
 
-    // 4b. Sign approval transaction locally
-    const approveNonce = await provider.getTransactionCount(wallet.address, 'pending');
-    const approveTx = {
-      to: approveTxData.data.to,
-      data: approveTxData.data.data,
-      value: approveTxData.data.value,
-      chainId: approveTxData.data.chainId,
-      gasLimit: approveTxData.data.gasLimit,
-      maxFeePerGas: approveTxData.data.maxFeePerGas,
-      maxPriorityFeePerGas: approveTxData.data.maxPriorityFeePerGas,
-      nonce: approveNonce
-    };
-
-    const signedApproveTx = await wallet.signTransaction(approveTx);
-
-    // 4c. Broadcast approval transaction
-    const broadcastApproveResponse = await fetch(`${API_URL}/api/v1/transaction/broadcast`, {
-      method: 'POST',
-      headers: {
-        'X-API-Key': API_KEY,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        chainId: 84532,
-        signedTransaction: signedApproveTx
-      })
+    const approveTx = await wallet.sendTransaction({
+      to: approveRes.data.transaction.to,
+      data: approveRes.data.transaction.data,
+      gasLimit: approveRes.data.transaction.gasLimit
     });
-    const approveResult = await broadcastApproveResponse.json();
-    console.log('Approval transaction hash:', approveResult.data.transactionHash);
 
-    // 4d. Wait for approval transaction confirmation
-    await provider.waitForTransaction(approveResult.data.transactionHash);
-    console.log('Approval confirmed');
+    console.log('Approval tx:', approveTx.hash);
+    await approveTx.wait();
+    console.log('Approval confirmed!');
   }
 
-  // 5. Build swap transaction
-  const buildSwapResponse = await fetch(`${API_URL}/api/v1/transaction/build/swap`, {
-    method: 'POST',
-    headers: {
-      'X-API-Key': API_KEY,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      chainId: 84532,
-      userAddress: wallet.address,
-      tokenIn: '0xbe8bCb2E781214F3403Cc85327d2173642A0BD86',
-      tokenOut: '0x340Ca64911c2C9E85c994690F805984104e054Fa',
-      amountIn: '10',
-      minAmountOut: preview.data.minimumAmountOut
-    })
+  // 5. Build convert transaction
+  const buildRes = await api('/api/v1/transaction/build/convert', 'POST', {
+    chainId: CHAIN_ID,
+    userAddress: wallet.address,
+    tokenIn: USDC,
+    tokenOut: AUDM,
+    amountIn: '10',
+    minAmountOut: preview.data.recommendedMinAmountOut
   });
-  const swapTxData = await buildSwapResponse.json();
 
-  // 6. Sign swap transaction locally
-  const swapNonce = await provider.getTransactionCount(wallet.address, 'pending');
-  const swapTx = {
-    to: swapTxData.data.to,
-    data: swapTxData.data.data,
-    value: swapTxData.data.value,
-    chainId: swapTxData.data.chainId,
-    gasLimit: swapTxData.data.gasLimit,
-    maxFeePerGas: swapTxData.data.maxFeePerGas,
-    maxPriorityFeePerGas: swapTxData.data.maxPriorityFeePerGas,
-    nonce: swapNonce
-  };
+  if (!buildRes.success) throw new Error(buildRes.error);
 
-  const signedSwapTx = await wallet.signTransaction(swapTx);
-
-  // 7. Broadcast swap transaction
-  const broadcastSwapResponse = await fetch(`${API_URL}/api/v1/transaction/broadcast`, {
-    method: 'POST',
-    headers: {
-      'X-API-Key': API_KEY,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      chainId: 84532,
-      signedTransaction: signedSwapTx
-    })
+  // 6. Sign transaction locally
+  const nonce = await provider.getTransactionCount(wallet.address);
+  const signedTx = await wallet.signTransaction({
+    to: buildRes.data.to,
+    data: buildRes.data.data,
+    value: buildRes.data.value || '0',
+    gasLimit: buildRes.data.gasLimit,
+    maxFeePerGas: buildRes.data.maxFeePerGas,
+    maxPriorityFeePerGas: buildRes.data.maxPriorityFeePerGas,
+    nonce: nonce,
+    chainId: CHAIN_ID,
+    type: 2
   });
-  const swapResult = await broadcastSwapResponse.json();
-  console.log('Swap transaction hash:', swapResult.data.transactionHash);
 
-  // 8. Wait for swap transaction confirmation
-  const receipt = await provider.waitForTransaction(swapResult.data.transactionHash);
-  console.log('Swap confirmed! Block:', receipt.blockNumber);
+  console.log('Transaction signed');
 
-  // 9. Query final status
-  const statusResponse = await fetch(`${API_URL}/api/v1/transaction/status`, {
-    method: 'POST',
-    headers: {
-      'X-API-Key': API_KEY,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      chainId: 84532,
-      transactionHash: swapResult.data.transactionHash
-    })
+  // 7. Broadcast with slippage analysis
+  const broadcastRes = await api('/api/v1/transaction/broadcast/convert', 'POST', {
+    chainId: CHAIN_ID,
+    signedTransaction: signedTx,
+    expectedAmountOut: preview.data.amountOut,
+    amountIn: '10',
+    tokenIn: USDC,
+    tokenOut: AUDM
   });
-  const status = await statusResponse.json();
-  console.log('Transaction status:', status.data.status);
-  console.log('Gas used:', status.data.gasUsed);
 
-  return swapResult.data.transactionHash;
+  if (!broadcastRes.success) throw new Error(broadcastRes.error);
+
+  // 8. Display results
+  console.log('\n========== RESULT ==========');
+  console.log('Transaction:', broadcastRes.data.transactionHash);
+  console.log('Status:', broadcastRes.data.status);
+
+  if (broadcastRes.data.convert) {
+    const c = broadcastRes.data.convert;
+    console.log('Input:', c.amountIn, 'USDC');
+    console.log('Output:', c.actualAmountOut, 'AUDM');
+    console.log('Slippage:', c.slippage);
+    console.log('Fee:', c.fee.rate, '(', c.fee.amount, 'AUDM)');
+  }
+
+  return broadcastRes.data.transactionHash;
 }
 
 // Execute
-executeSwap()
+executeConvert()
   .then(hash => {
-    console.log('\n✅ Swap completed!');
+    console.log('\nConversion complete!');
     console.log(`Explorer: https://sepolia.basescan.org/tx/${hash}`);
   })
   .catch(error => {
-    console.error('❌ Error:', error.message);
+    console.error('Error:', error.message);
   });
 ```

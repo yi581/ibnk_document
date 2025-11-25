@@ -3,55 +3,49 @@ sidebar_position: 2
 title: Quick Start
 ---
 
-# Quick Start Tutorial
+# Quick Start
 
-This is a complete end-to-end tutorial demonstrating how to complete your first Swap transaction from scratch.
+This tutorial demonstrates how to complete your first token conversion from scratch.
 
 ## Prerequisites
 
-- Node.js 18+ or Python 3.8+
-- A Base Sepolia or Arbitrum Sepolia testnet wallet
-- Test ETH (for gas) and test tokens in your wallet
+- Node.js 18+
+- A Base Sepolia testnet wallet
+- Test ETH (for gas) and test tokens
 - Your API Key
 
 ## Step 1: Install Dependencies
 
-**Node.js:**
 ```bash
-npm install ethers node-fetch
-```
-
-**Python:**
-```bash
-pip install web3 requests eth-account
+npm install ethers
 ```
 
 ## Step 2: View Available Pools
 
 ```bash
 curl -X GET "https://api.ibnk.xyz/api/v1/pools?chainId=84532" \
-  -H "X-API-Key: your_api_key_here"
+  -H "X-API-Key: your_api_key"
 ```
 
-**Response Example:**
+**Response:**
 ```json
 {
   "success": true,
   "data": {
     "pools": [
       {
-        "address": "0x875BFCc05e2227E38C8de637Abf0C94A2DAEAE7a",
+        "address": "0xEd1FAF5Ed63dA5b47CBc44f7696E701cb613bB57",
         "name": "AUDM/USDC",
         "chainId": 84532,
         "token0": {
-          "address": "0xbe8bCb2E781214F3403Cc85327d2173642A0BD86",
+          "address": "0xb5dC8d3fcFd2277f2C6ae87e766732c00A7EfbF3",
           "symbol": "AUDM",
-          "decimals": "6"
+          "decimals": 6
         },
         "token1": {
-          "address": "0x340Ca64911c2C9E85c994690F805984104e054Fa",
+          "address": "0xB209B4f21a233751EEd1C11747b1f06850fE6ca2",
           "symbol": "USDC",
-          "decimals": "6"
+          "decimals": 6
         }
       }
     ]
@@ -59,17 +53,17 @@ curl -X GET "https://api.ibnk.xyz/api/v1/pools?chainId=84532" \
 }
 ```
 
-## Step 3: Preview Swap
+## Step 3: Preview Conversion
 
 ```bash
-curl -X POST "https://api.ibnk.xyz/api/v1/swap/preview" \
-  -H "X-API-Key: your_api_key_here" \
+curl -X POST "https://api.ibnk.xyz/api/v1/convert/preview" \
+  -H "X-API-Key: your_api_key" \
   -H "Content-Type: application/json" \
   -d '{
     "chainId": 84532,
-    "poolAddress": "0x875BFCc05e2227E38C8de637Abf0C94A2DAEAE7a",
-    "tokenIn": "0xbe8bCb2E781214F3403Cc85327d2173642A0BD86",
-    "tokenOut": "0x340Ca64911c2C9E85c994690F805984104e054Fa",
+    "poolAddress": "0xEd1FAF5Ed63dA5b47CBc44f7696E701cb613bB57",
+    "tokenIn": "0xB209B4f21a233751EEd1C11747b1f06850fE6ca2",
+    "tokenOut": "0xb5dC8d3fcFd2277f2C6ae87e766732c00A7EfbF3",
     "amountIn": "10"
   }'
 ```
@@ -80,200 +74,195 @@ curl -X POST "https://api.ibnk.xyz/api/v1/swap/preview" \
   "success": true,
   "data": {
     "amountIn": "10",
-    "amountOut": "6.49675",
-    "minimumAmountOut": "6.431782",
-    "priceImpact": "0.05%",
-    "fee": "0.05%"
+    "amountOut": "15.475259",
+    "exchangeRate": "1.547526",
+    "fee": "0.05%",
+    "recommendedMinAmountOut": "15.467521"
   }
 }
 ```
 
-## Step 4: Execute Complete Swap (Node.js Example)
+## Step 4: Complete Conversion (Node.js)
 
-Create a file `my-first-swap.js`:
+Create a file `my-first-convert.js`:
 
 ```javascript
 const { ethers } = require('ethers');
 
 const API_URL = 'https://api.ibnk.xyz';
-const API_KEY = 'your_api_key_here';
-const PRIVATE_KEY = 'your_private_key_here';
+const API_KEY = 'your_api_key';
+const PRIVATE_KEY = 'your_private_key';
 const RPC_URL = 'https://sepolia.base.org';
+const CHAIN_ID = 84532;
 
-async function myFirstSwap() {
-  console.log('🚀 Starting my first Swap...\n');
+// Contract addresses (Base Sepolia)
+const USDC = '0xB209B4f21a233751EEd1C11747b1f06850fE6ca2';
+const AUDM = '0xb5dC8d3fcFd2277f2C6ae87e766732c00A7EfbF3';
+const POOL = '0xEd1FAF5Ed63dA5b47CBc44f7696E701cb613bB57';
+const ROUTER = '0x9647B25aFf27F1c36f77dFec2560a8696B59dbdE';
+
+async function api(endpoint, method = 'GET', body = null) {
+  const options = {
+    method,
+    headers: {
+      'X-API-Key': API_KEY,
+      'Content-Type': 'application/json'
+    }
+  };
+  if (body) options.body = JSON.stringify(body);
+  const res = await fetch(API_URL + endpoint, options);
+  return res.json();
+}
+
+async function myFirstConvert() {
+  console.log('Starting first conversion...\n');
 
   // 1. Create wallet
   const provider = new ethers.JsonRpcProvider(RPC_URL);
   const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
-  console.log('✅ Wallet address:', wallet.address);
+  console.log('Wallet address:', wallet.address);
 
-  // 2. Preview Swap
-  console.log('\n📊 Previewing Swap...');
-  const previewResponse = await fetch(`${API_URL}/api/v1/swap/preview`, {
-    method: 'POST',
-    headers: {
-      'X-API-Key': API_KEY,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      chainId: 84532,
-      poolAddress: '0x875BFCc05e2227E38C8de637Abf0C94A2DAEAE7a',
-      tokenIn: '0xbe8bCb2E781214F3403Cc85327d2173642A0BD86',
-      tokenOut: '0x340Ca64911c2C9E85c994690F805984104e054Fa',
-      amountIn: '10'
-    })
+  // 2. Preview conversion
+  console.log('\n--- Step 1: Preview ---');
+  const preview = await api('/api/v1/convert/preview', 'POST', {
+    chainId: CHAIN_ID,
+    poolAddress: POOL,
+    tokenIn: USDC,
+    tokenOut: AUDM,
+    amountIn: '10'
   });
-  const preview = await previewResponse.json();
-  console.log('✅ Expected output:', preview.data.amountOut, 'USDC');
 
-  // 3. Check approval
-  console.log('\n🔍 Checking approval...');
-  const approvalCheckResponse = await fetch(`${API_URL}/api/v1/approval/check`, {
-    method: 'POST',
-    headers: {
-      'X-API-Key': API_KEY,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      chainId: 84532,
-      tokenAddress: '0xbe8bCb2E781214F3403Cc85327d2173642A0BD86',
-      ownerAddress: wallet.address,
-      spenderAddress: '0x464B3Ad497B558E1BE73a550631CA462632651bc',
-      requiredAmount: '10'
-    })
-  });
-  const approvalCheck = await approvalCheckResponse.json();
-
-  // 4. If approval needed, execute approval
-  if (approvalCheck.data.needsApproval) {
-    console.log('⚠️  Approval needed...');
-    // [See Section 13 of the full documentation for approval code]
-    console.log('Please complete approval first, then run this script again');
+  if (!preview.success) {
+    console.error('Preview failed:', preview.error);
     return;
   }
-  console.log('✅ Sufficient approval');
 
-  // 5. Build Swap transaction
-  console.log('\n🔨 Building Swap transaction...');
-  const buildResponse = await fetch(`${API_URL}/api/v1/transaction/build/swap`, {
-    method: 'POST',
-    headers: {
-      'X-API-Key': API_KEY,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      chainId: 84532,
-      userAddress: wallet.address,
-      tokenIn: '0xbe8bCb2E781214F3403Cc85327d2173642A0BD86',
-      tokenOut: '0x340Ca64911c2C9E85c994690F805984104e054Fa',
-      amountIn: '10',
-      minAmountOut: preview.data.minimumAmountOut
-    })
+  console.log('Expected output:', preview.data.amountOut, 'AUDM');
+  console.log('Exchange rate:', preview.data.exchangeRate);
+
+  // 3. Check approval
+  console.log('\n--- Step 2: Check Approval ---');
+  const approval = await api('/api/v1/approval/check', 'POST', {
+    chainId: CHAIN_ID,
+    tokenAddress: USDC,
+    ownerAddress: wallet.address,
+    spenderAddress: ROUTER,
+    requiredAmount: '10'
   });
-  const txData = await buildResponse.json();
-  console.log('✅ Transaction built');
 
-  // 6. Sign transaction
-  console.log('\n🔐 Signing transaction...');
-  const nonce = await provider.getTransactionCount(wallet.address, 'pending');
-  const tx = {
-    to: txData.data.to,
-    data: txData.data.data,
-    value: txData.data.value,
-    chainId: txData.data.chainId,
-    gasLimit: txData.data.gasLimit,
-    maxFeePerGas: txData.data.maxFeePerGas,
-    maxPriorityFeePerGas: txData.data.maxPriorityFeePerGas,
-    nonce
-  };
-  const signedTx = await wallet.signTransaction(tx);
-  console.log('✅ Transaction signed');
+  if (approval.data.needsApproval) {
+    console.log('Approval needed...');
+    const approveRes = await api('/api/v1/approval/build', 'POST', {
+      chainId: CHAIN_ID,
+      tokenAddress: USDC,
+      spenderAddress: ROUTER,
+      amount: '10',
+      isUnlimited: true
+    });
 
-  // 7. Broadcast transaction
-  console.log('\n📡 Broadcasting transaction...');
-  const broadcastResponse = await fetch(`${API_URL}/api/v1/transaction/broadcast`, {
-    method: 'POST',
-    headers: {
-      'X-API-Key': API_KEY,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      chainId: 84532,
-      signedTransaction: signedTx
-    })
+    const approveTx = await wallet.sendTransaction({
+      to: approveRes.data.transaction.to,
+      data: approveRes.data.transaction.data,
+      gasLimit: approveRes.data.transaction.gasLimit
+    });
+
+    console.log('Approval tx:', approveTx.hash);
+    await approveTx.wait();
+    console.log('Approval confirmed!');
+  } else {
+    console.log('Already approved');
+  }
+
+  // 4. Build convert transaction
+  console.log('\n--- Step 3: Build Transaction ---');
+  const buildRes = await api('/api/v1/transaction/build/convert', 'POST', {
+    chainId: CHAIN_ID,
+    userAddress: wallet.address,
+    tokenIn: USDC,
+    tokenOut: AUDM,
+    amountIn: '10',
+    minAmountOut: preview.data.recommendedMinAmountOut
   });
-  const result = await broadcastResponse.json();
-  console.log('✅ Transaction broadcast!');
-  console.log('📝 Transaction hash:', result.data.transactionHash);
-  console.log('🔗 Explorer:', `https://sepolia.basescan.org/tx/${result.data.transactionHash}`);
 
-  // 8. Wait for confirmation
-  console.log('\n⏳ Waiting for confirmation...');
-  const receipt = await provider.waitForTransaction(result.data.transactionHash);
-  console.log('✅ Transaction confirmed! Block:', receipt.blockNumber);
+  if (!buildRes.success) {
+    console.error('Build failed:', buildRes.error);
+    return;
+  }
+  console.log('Transaction built');
 
-  console.log('\n🎉 Complete! You have successfully executed your first Swap!');
+  // 5. Sign transaction locally
+  console.log('\n--- Step 4: Sign ---');
+  const nonce = await provider.getTransactionCount(wallet.address);
+  const signedTx = await wallet.signTransaction({
+    to: buildRes.data.to,
+    data: buildRes.data.data,
+    value: buildRes.data.value || '0',
+    gasLimit: buildRes.data.gasLimit,
+    maxFeePerGas: buildRes.data.maxFeePerGas,
+    maxPriorityFeePerGas: buildRes.data.maxPriorityFeePerGas,
+    nonce: nonce,
+    chainId: CHAIN_ID,
+    type: 2
+  });
+  console.log('Transaction signed');
+
+  // 6. Broadcast transaction
+  console.log('\n--- Step 5: Broadcast ---');
+  const broadcastRes = await api('/api/v1/transaction/broadcast/convert', 'POST', {
+    chainId: CHAIN_ID,
+    signedTransaction: signedTx,
+    expectedAmountOut: preview.data.amountOut,
+    amountIn: '10',
+    tokenIn: USDC,
+    tokenOut: AUDM
+  });
+
+  if (!broadcastRes.success) {
+    console.error('Broadcast failed:', broadcastRes.error);
+    return;
+  }
+
+  // 7. Display results
+  console.log('\n========== RESULT ==========');
+  console.log('Transaction:', broadcastRes.data.transactionHash);
+  console.log('Status:', broadcastRes.data.status);
+
+  if (broadcastRes.data.convert) {
+    const c = broadcastRes.data.convert;
+    console.log('Input:', c.amountIn, 'USDC');
+    console.log('Output:', c.actualAmountOut, 'AUDM');
+    console.log('Slippage:', c.slippage);
+  }
+
+  console.log('\nExplorer:', `https://sepolia.basescan.org/tx/${broadcastRes.data.transactionHash}`);
+  console.log('\nConversion complete!');
 }
 
-// Run
-myFirstSwap().catch(console.error);
+myFirstConvert().catch(console.error);
 ```
 
 **Run:**
 ```bash
-node my-first-swap.js
+node my-first-convert.js
 ```
 
-**Expected Output:**
-```
-🚀 Starting my first Swap...
-
-✅ Wallet address: 0xYour...Address
-
-📊 Previewing Swap...
-✅ Expected output: 6.49675 USDC
-
-🔍 Checking approval...
-✅ Sufficient approval
-
-🔨 Building Swap transaction...
-✅ Transaction built
-
-🔐 Signing transaction...
-✅ Transaction signed
-
-📡 Broadcasting transaction...
-✅ Transaction broadcast!
-📝 Transaction hash: 0x...
-🔗 Explorer: https://sepolia.basescan.org/tx/0x...
-
-⏳ Waiting for confirmation...
-✅ Transaction confirmed! Block: 12345678
-
-🎉 Complete! You have successfully executed your first Swap!
-```
-
-## Frequently Asked Questions
+## FAQ
 
 **Q: How do I get test ETH?**
 A: Use the faucet: https://www.alchemy.com/faucets/base-sepolia
 
 **Q: How do I get test tokens (AUDM, USDC)?**
-A: Contact the IBNK team to obtain test tokens
-
-**Q: What if approval fails?**
-A: See [Section 13](#13-构建授权交易) of the full documentation to learn how to handle approvals
+A: Use the Faucet API endpoint. See [Convert Guide](./convert-guide) for details.
 
 **Q: What if the transaction fails?**
-A: Check the [Troubleshooting](#-故障排除) section
+A: Check:
+1. Sufficient ETH balance for gas
+2. Sufficient token balance
+3. Approval completed
+4. Oracle price not stale
 
 ## Next Steps
 
-Congratulations! You have completed your first Swap. Next, you can:
-
-1. Review the [complete transaction signing flow documentation](#交易签名传输端点-transaction-signing-flow)
-2. Learn about [approval management](#8-检查代币授权状态)
-3. Explore [liquidity management](#6-添加流动性预览)
-4. Use [Oracle pricing](#11-获取oracle价格)
-5. Check the [complete API reference](#api-端点)
+- Read the [Convert Guide](./convert-guide) for detailed step-by-step instructions
+- Review the [API Endpoints](./endpoints) documentation
+- Check the [Reference](./reference) for contract addresses and best practices
