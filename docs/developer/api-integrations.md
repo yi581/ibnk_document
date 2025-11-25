@@ -130,8 +130,8 @@ All responses include a `success` field:
 
 For complete documentation, see:
 
-- [Quick Start](/docs/api-reference/quickstart) - Complete tutorial
-- [Convert Guide](/docs/api-reference/convert-guide) - Step-by-step conversion guide
-- [API Endpoints](/docs/api-reference/endpoints) - Full endpoint reference
-- [Faucet](/docs/api-reference/faucet) - Get test tokens
-- [Reference](/docs/api-reference/reference) - Contract addresses and best practices
+- [Quick Start](../api-reference/quickstart) - Complete tutorial
+- [Convert Guide](../api-reference/convert-guide) - Step-by-step conversion guide
+- [API Endpoints](../api-reference/endpoints) - Full endpoint reference
+- [Faucet](../api-reference/faucet) - Get test tokens
+- [Reference](../api-reference/reference) - Contract addresses and best practices
